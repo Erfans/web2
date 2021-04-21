@@ -16,3 +16,6 @@ Homestead.yaml
 # System
 .idea
 .DS_Store
+
+# docker
+docker/data/
