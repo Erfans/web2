@@ -3,89 +3,92 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Form\BookType;
 use App\Repository\BookRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/book")
+ */
 class BookController extends AbstractController
 {
     /**
-     * @Route("/books", name="book_list")
+     * @Route("/", name="book_index", methods={"GET"})
      */
     public function index(BookRepository $bookRepository): Response
     {
-        $books = $bookRepository->findAll();
         return $this->render('book/index.html.twig', [
-            'books' => $books
+            'books' => $bookRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/book/{id}", name="book_view")
+     * @Route("/new", name="book_new", methods={"GET","POST"})
      */
-    public function view(Book $book): Response
+    public function new(Request $request): Response
     {
-        return $this->render('book/view.html.twig', [
-            'book' => $book
-        ]);
-    }
+        $book = new Book();
+        $form = $this->createForm(BookType::class, $book);
+        $form->handleRequest($request);
 
-
-    /**
-     * @Route("/books/new", name="book_create")
-     */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
-    {
-
-        if ($request->isMethod("POST")) {
-            $name = $request->request->get("name");
-            $description = $request->request->get("description");
-
-            $book = new Book();
-            $book->setName($name);
-            $book->setDescription($description);
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($book);
             $entityManager->flush();
+
+            return $this->redirectToRoute('book_index');
         }
 
-        return $this->render('book/create.html.twig');
+        return $this->render('book/new.html.twig', [
+            'book' => $book,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
-     * @Route("/book/{id}/edit", name="book_edit")
+     * @Route("/{id}", name="book_show", methods={"GET"})
      */
-    public function edit(Book $book, Request $request, EntityManagerInterface $entityManager): Response
+    public function show(Book $book): Response
     {
+        return $this->render('book/show.html.twig', [
+            'book' => $book,
+        ]);
+    }
 
-        if ($request->isMethod("POST")) {
-            $name = $request->request->get("name");
-            $description = $request->request->get("description");
+    /**
+     * @Route("/{id}/edit", name="book_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Book $book): Response
+    {
+        $form = $this->createForm(BookType::class, $book);
+        $form->handleRequest($request);
 
-            $book->setName($name);
-            $book->setDescription($description);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
 
-            $entityManager->flush();
+            return $this->redirectToRoute('book_index');
         }
 
         return $this->render('book/edit.html.twig', [
-            'book' => $book
+            'book' => $book,
+            'form' => $form->createView(),
         ]);
     }
 
-
     /**
-     * @Route("/book/{id}/delete", name="book_delete")
+     * @Route("/{id}", name="book_delete", methods={"POST"})
      */
-    public function delete(Book $book, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Book $book): Response
     {
+        if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($book);
+            $entityManager->flush();
+        }
 
-        $entityManager->remove($book);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('book_list');
+        return $this->redirectToRoute('book_index');
     }
 }
