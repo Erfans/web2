@@ -20,6 +20,9 @@ RUN apk add --no-cache \
         jq \
     ;
 
+RUN apk add --no-cache nodejs npm;
+RUN npm install -g yarn;
+
 ARG APCU_VERSION=5.1.18
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \

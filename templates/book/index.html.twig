@@ -2,10 +2,15 @@
 
 {% block title %}Book index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('book_style') }}
+{% endblock %}
+
 {% block body %}
     <h1>Book index</h1>
 
-    <table class="table">
+    <table class="table table-hover table-bordered">
         <thead>
             <tr>
                 <th>Id</th>
@@ -33,5 +38,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('book_new') }}">Create new</a>
+    <a class="btn btn-primary btn-create-book" href="{{ path('book_new') }}">Create new</a>
 {% endblock %}
