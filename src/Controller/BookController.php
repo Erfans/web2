@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use App\Tax\TaxCalculator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/book")
@@ -51,10 +54,20 @@ class BookController extends AbstractController
     /**
      * @Route("/{id}", name="book_show", methods={"GET"})
      */
-    public function show(Book $book): Response
+    public function show(Book $book, TaxCalculator $taxCalculator, Security $security): Response
     {
+        if ($book->getName() == "book 0") {
+            $this->denyAccessUnlessGranted("ROLE_USER");
+        }
+
+        $tax = $taxCalculator->calculateTax($book->getPrice(), "book");
+
+        $user = $security->getUser();
+
         return $this->render('book/show.html.twig', [
             'book' => $book,
+            'tax' => $tax,
+            'email' => $user->getUsername()
         ]);
     }
 
@@ -80,10 +93,11 @@ class BookController extends AbstractController
 
     /**
      * @Route("/{id}", name="book_delete", methods={"POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Request $request, Book $book): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $book->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($book);
             $entityManager->flush();

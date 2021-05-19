@@ -38,6 +38,12 @@ class Book
      */
     private $bookStore;
 
+    /**
+     * @Assert\PositiveOrZero
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $price;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +81,18 @@ class Book
     public function setBookStore(?BookStore $bookStore): self
     {
         $this->bookStore = $bookStore;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

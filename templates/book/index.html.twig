@@ -12,12 +12,13 @@
 
     <table class="table table-hover table-bordered">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>price</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for book in books %}
@@ -25,9 +26,12 @@
                 <td>{{ book.id }}</td>
                 <td>{{ book.name }}</td>
                 <td>{{ book.description }}</td>
+                <td>{{ book.price|format_currency('IRR') }}</td>
                 <td>
                     <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
+                    {% if is_granted("ROLE_USER") %}
+                        <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -38,5 +42,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary btn-create-book" href="{{ path('book_new') }}">Create new</a>
+    {% if is_granted("ROLE_USER") %}
+        <a class="btn btn-primary btn-create-book" href="{{ path('book_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}

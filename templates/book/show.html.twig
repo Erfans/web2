@@ -3,7 +3,7 @@
 {% block title %}Book{% endblock %}
 
 {% block body %}
-    <h1>Book</h1>
+    <h1>Book for user {{ app.user.email }}</h1>
 
     <table class="table">
         <tbody>
@@ -22,6 +22,10 @@
             <tr>
                 <th>Name</th>
                 <td>{{ book.name }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ book.price|format_currency('IRR') }} - Tax: {{ tax|format_currency('IRR') }}</td>
             </tr>
             <tr>
                 <th>Description</th>

@@ -15,6 +15,7 @@ class BookType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
+            ->add('price')
             ->add('bookStore');
     }
 

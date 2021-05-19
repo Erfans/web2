@@ -12,9 +12,23 @@
 <body>
 
 <header>
-    <h1 class="h1 d-inline-block">Book</h1>
-    <div class="logo" >
-        <img src="{{ asset("build/images/index.png") }}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4">
+                <h1 class="h1 d-inline-block">Book</h1>
+            </div>
+            <div class="logo col-4">
+                <img src="{{ asset("build/images/index.png") }}">
+            </div>
+            <div class="logo col-4">
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <a href="{{ path("app_logout") }}">Log out</a>
+                {% else %}
+                    <a href="{{ path("app_login") }}">Login</a> |
+                    <a href="{{ path("app_register") }}">Register</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </header>
 
