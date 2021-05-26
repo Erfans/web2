@@ -1,17 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BookStore{% endblock %}
+{% block title %}Search for {{ query }}{% endblock %}
 
 {% block body %}
-    <h1 class="mt-5">{{ book_store.name }}</h1>
-    <p class="h6">
-        {{ book_store.phone }}
-    </p>
-    <p class="h6 mb-5">
-        {{ book_store.email }}
-    </p>
-
-    {% for book in book_store.books %}
+    {% for book in books %}
         <div class="card m-3 d-inline-block" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">{{ book.name }}</h5>
@@ -24,5 +16,4 @@
             </div>
         </div>
     {% endfor %}
-
 {% endblock %}

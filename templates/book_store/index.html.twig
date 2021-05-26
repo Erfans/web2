@@ -2,48 +2,25 @@
 
 {% block title %}BookStore index{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('book_store') }}
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('book_store') }}
-{% endblock %}
-
 {% block body %}
-    <h1>BookStore index</h1>
+    <h1 class="my-5">Bookstores</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for book_store in book_stores %}
-            <tr>
-                <td>{{ book_store.id }}</td>
-                <td>{{ book_store.name }}</td>
-                <td>{{ book_store.phone }}</td>
-                <td>{{ book_store.email }}</td>
-                <td>
-                    <a href="{{ path('book_store_show', {'id': book_store.id}) }}">show</a>
-                    <a href="{{ path('book_store_edit', {'id': book_store.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('book_store_new') }}">Create new</a>
+    {% for book_store in book_stores %}
+        <div class="card m-3 d-inline-block" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ book_store.name }}</h5>
+                <p class="card-text">
+                <p>
+                    <span>Tel: </span>
+                    <span>{{ book_store.phone }}</span>
+                </p>
+                <p>
+                    <span>E-mail: </span>
+                    <span>{{ book_store.email }}</span>
+                </p>
+                </p>
+                <a href="{{ path('book_store_show', {id: book_store.id}) }}" class="btn btn-primary">Go to Bookstore</a>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
