@@ -21,8 +21,11 @@ class SearchService
 
     public function searchBook($input)
     {
+        $input = str_replace("%", "[%]", $input);
+
         $bookRepository = $this->entityManager->getRepository(Book::class);
-        return $bookRepository->createQueryBuilder('b')
+        return $bookRepository
+            ->createQueryBuilder('b')
             ->where('b.name like :q')
             ->setParameter('q', '%' . $input . '%')
             ->getQuery()

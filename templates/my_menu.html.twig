@@ -78,12 +78,12 @@
 {# displaying the item #}
     {% import _self as knp_menu %}
     <div class="nav-item">
-    <div {{ knp_menu.attributes(attributes) }}>
         {%- if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
         {{ block('linkElement') }}
         {%- else %}
         {{ block('spanElement') }}
         {%- endif %}
+    <div {{ knp_menu.attributes(attributes) }} {{ item.level == 0 ? 'dropdown-menu' ? '' }}>
 {# render the list of children#}
         {%- set childrenClasses = item.childrenAttribute('class') is not empty ? [item.childrenAttribute('class')] : [] %}
         {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}

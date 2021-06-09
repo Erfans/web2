@@ -40,8 +40,8 @@ class Builder
         $menu->addChild('Home', ['route' => 'home']);
 
         $bookStoreMenu = $menu->addChild('Bookstore', ['route' => 'book_store_index']);
-//        $bookStoreMenu->setAttribute('class', 'dropdown-menu');
-//        $bookStoreMenu->setChildrenAttribute('class', 'dropdown-item');
+        $bookStoreMenu->setAttribute('class', 'dropdown-menu');
+        $bookStoreMenu->setChildrenAttribute('class', 'dropdown-item');
 
         /** @var BookStore[] $bookStores */
         $bookStores = $this->entityManager->getRepository(BookStore::class)->findAll();
