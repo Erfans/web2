@@ -56,18 +56,8 @@ class BookController extends AbstractController
      */
     public function show(Book $book, TaxCalculator $taxCalculator, Security $security): Response
     {
-        if ($book->getName() == "book 0") {
-            $this->denyAccessUnlessGranted("ROLE_USER");
-        }
-
-        $tax = $taxCalculator->calculateTax($book->getPrice(), "book");
-
-        $user = $security->getUser();
-
         return $this->render('book/show.html.twig', [
             'book' => $book,
-            'tax' => $tax,
-            'email' => $user->getUsername()
         ]);
     }
 

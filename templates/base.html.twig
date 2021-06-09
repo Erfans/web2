@@ -36,6 +36,16 @@
 </header>
 
 <div class="container">
+
+    {# read and display all flash messages #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} flash-{{ label }} my-2">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <div class="row">
         <div class="col-12">
             {% block body %}{% endblock %}

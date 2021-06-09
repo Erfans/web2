@@ -11,8 +11,9 @@
             <th>Id</th>
             <th>Name</th>
             <th>Description</th>
-            <th>price</th>
-            <th>actions</th>
+            <th>Price</th>
+            <th>Price with tax</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -22,6 +23,7 @@
                 <td>{{ book.name }}</td>
                 <td>{{ book.description }}</td>
                 <td>{{ book.price|format_currency('IRR') }}</td>
+                <td>{{ book.priceWithTax|format_currency('IRR') }}</td>
                 <td>
                     <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
                     {% if is_granted("ROLE_USER") %}

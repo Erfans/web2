@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Model\TimeInterface;
+use App\Model\TimeTrait;
 use App\Repository\BookStoreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,8 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=BookStoreRepository::class)
  */
-class BookStore
+class BookStore implements TimeInterface
 {
+    use TimeTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

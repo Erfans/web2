@@ -31,3 +31,15 @@ services:
         arguments: [ "@knp_menu.factory"]
         tags:
             - { name: knp_menu.menu_builder, method: mainMenu, alias: main }
+
+
+    App\Listener\CreditListener:
+        tags:
+            - name: 'doctrine.event_listener'
+                # this is the only required option for the lifecycle listener tag
+              event: 'postPersist'
+
+
+    App\EventSubscriber\TimeSubscriber:
+        tags:
+            - name: 'doctrine.event_subscriber'
