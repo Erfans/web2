@@ -39,7 +39,3 @@ services:
                 # this is the only required option for the lifecycle listener tag
               event: 'postPersist'
 
-
-    App\EventSubscriber\TimeSubscriber:
-        tags:
-            - name: 'doctrine.event_subscriber'

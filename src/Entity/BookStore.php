@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Model\TimeInterface;
 use App\Model\TimeTrait;
 use App\Repository\BookStoreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,9 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=BookStoreRepository::class)
  */
-class BookStore implements TimeInterface
+class BookStore
 {
-    use TimeTrait;
 
     /**
      * @ORM\Id
@@ -46,9 +44,10 @@ class BookStore implements TimeInterface
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity=Book::class, mappedBy="bookStore", orphanRemoval=true)
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity=Salable::class, mappedBy="bookStore", orphanRemoval=true)
      */
-    private $books;
+    private $salables;
 
     public function __construct()
     {
@@ -99,32 +98,49 @@ class BookStore implements TimeInterface
     /**
      * @return Collection|Book[]
      */
-    public function getBooks(): Collection
+    public function getSalables(): Collection
     {
-        return $this->books;
+        return $this->salables;
     }
 
-    public function addBook(Book $book): self
+    public function addSalable(Salable $salable): self
     {
-        if (!$this->books->contains($book)) {
-            $this->books[] = $book;
-            $book->setBookStore($this);
+        if (!$this->salables->contains($salable)) {
+            $this->salables[] = $salable;
+            $salable->setBookStore($this);
         }
 
         return $this;
     }
 
-    public function removeBook(Book $book): self
+    public function removeSalable(Salable $salable): self
     {
-        if ($this->books->removeElement($book)) {
+        if ($this->salables->removeElement($salable)) {
             // set the owning side to null (unless already changed)
-            if ($book->getBookStore() === $this) {
-                $book->setBookStore(null);
+            if ($salable->getBookStore() === $this) {
+                $salable->setBookStore(null);
             }
         }
 
         return $this;
     }
+
+
+    public function getBooks()
+    {
+        return $this->salables->filter(function ($salable) {
+            return $salable instanceof Book;
+        });
+    }
+
+
+    public function getMagazines()
+    {
+        return $this->salables->filter(function ($salable) {
+            return $salable instanceof Magazine;
+        });
+    }
+
 
     public function __toString()
     {

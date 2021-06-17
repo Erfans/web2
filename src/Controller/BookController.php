@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use App\Tax\TaxCalculator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,16 @@ class BookController extends AbstractController
     /**
      * @Route("/", name="book_index", methods={"GET"})
      */
-    public function index(BookRepository $bookRepository): Response
+    public function index(BookRepository $bookRepository, EntityManagerInterface $entityManager): Response
     {
+        $books = $entityManager->createQuery(
+            'SELECT b
+            FROM App\Entity\Book b'
+        )
+            ->getResult();
+
         return $this->render('book/index.html.twig', [
-            'books' => $bookRepository->findAll(),
+            'books' => $books,
         ]);
     }
 
@@ -54,10 +61,13 @@ class BookController extends AbstractController
     /**
      * @Route("/{id}", name="book_show", methods={"GET"})
      */
-    public function show(Book $book, TaxCalculator $taxCalculator, Security $security): Response
+    public function show(Book $book, BookRepository $bookRepository): Response
     {
+//        $logs = $bookRepository->getLogEntries($book);
+
         return $this->render('book/show.html.twig', [
             'book' => $book,
+//            'logs' => $logs
         ]);
     }
 

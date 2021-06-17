@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Model\TimeInterface;
 use App\Model\TimeTrait;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,10 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=OrderRepository::class)
  * @ORM\Table(name="`order`")
  */
-class Order implements TimeInterface
+class Order
 {
-    use TimeTrait;
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

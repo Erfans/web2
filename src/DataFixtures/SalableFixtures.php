@@ -4,11 +4,12 @@ namespace App\DataFixtures;
 
 use App\Entity\Book;
 use App\Entity\BookStore;
+use App\Entity\Magazine;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class BookFixtures extends Fixture
+class SalableFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -27,6 +28,16 @@ class BookFixtures extends Fixture
                 $book->setDescription($faker->text);
                 $book->setPrice($faker->randomNumber(6));
                 $book->setBookStore($bookStore);
+                $manager->persist($book);
+            }
+
+            for ($j = 0; $j < 10; $j++) {
+                $book = new Magazine();
+                $book->setName($faker->name);
+                $book->setDescription($faker->text);
+                $book->setPrice($faker->randomNumber(6));
+                $book->setBookStore($bookStore);
+                $book->setIssueNumber($faker->randomNumber(3));
                 $manager->persist($book);
             }
 

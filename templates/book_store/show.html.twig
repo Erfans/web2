@@ -11,15 +11,33 @@
         {{ book_store.email }}
     </p>
 
-    {% for book in book_store.books %}
-        <div class="card m-3 d-inline-block" style="width: 18rem;">
+    <h1 class="mt-5">Our Books</h1>
+    {% for salable in book_store.books %}
+        <div class="card m-3 d-inline-block"
+             style="width: 18rem; {% if salable.isTypeOf('book') %}background-color: #888;{% endif %} ">
             <div class="card-body">
-                <h5 class="card-title">{{ book.name }}</h5>
+                <h5 class="card-title">{{ salable.name }}</h5>
                 <p class="card-text">
-                    {{ book.description }}
+                    {{ salable.description }}
                 </p>
                 <p class="card-text fw-bold">
-                    {{ book.price|format_currency('IRR') }}
+                    {{ salable.price|format_currency('IRR') }}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <h1 class="mt-5">Our Magazines</h1>
+    {% for salable in book_store.magazines %}
+        <div class="card m-3 d-inline-block"
+             style="width: 18rem; {% if salable.isTypeOf('book') %}background-color: #888;{% endif %} ">
+            <div class="card-body">
+                <h5 class="card-title">{{ salable.name }}</h5>
+                <p class="card-text">
+                    {{ salable.description }}
+                </p>
+                <p class="card-text fw-bold">
+                    {{ salable.price|format_currency('IRR') }}
                 </p>
             </div>
         </div>

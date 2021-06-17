@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Magazine index{% endblock %}
+
+{% block body %}
+    <h1>Magazine index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>PriceWithTax</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>IssueNumber</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for magazine in magazines %}
+            <tr>
+                <td>{{ magazine.id }}</td>
+                <td>{{ magazine.name }}</td>
+                <td>{{ magazine.description }}</td>
+                <td>{{ magazine.price }}</td>
+                <td>{{ magazine.priceWithTax }}</td>
+                <td>{{ magazine.createdAt ? magazine.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ magazine.updatedAt ? magazine.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ magazine.issueNumber }}</td>
+                <td>
+                    <a href="{{ path('magazine_show', {'id': magazine.id}) }}">show</a>
+                    <a href="{{ path('magazine_edit', {'id': magazine.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('magazine_new') }}">Create new</a>
+{% endblock %}
