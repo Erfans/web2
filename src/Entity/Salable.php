@@ -13,7 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"book" = "Book", "magazine" = "Magazine", "salable" = "Salable"})
- * @Gedmo\Loggable
  */
 class Salable implements SalableInterface
 {
