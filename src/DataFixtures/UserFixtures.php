@@ -23,6 +23,7 @@ class UserFixtures extends Fixture
     {
         $user = new User();
         $user->setEmail("erfan@web2.com");
+        $user->setRoles(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN']);
         $user->setPassword(
             $this->userPasswordEncoder->encodePassword($user, "1234")
         );
