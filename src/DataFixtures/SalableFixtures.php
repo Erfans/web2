@@ -15,14 +15,14 @@ class SalableFixtures extends Fixture
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $bookStore = new BookStore();
             $bookStore->setName($faker->name);
             $bookStore->setEmail($faker->email);
             $bookStore->setPhone($faker->phoneNumber);
             $manager->persist($bookStore);
 
-            for ($j = 0; $j < 10; $j++) {
+            for ($j = 0; $j < 1000; $j++) {
                 $book = new Book();
                 $book->setName($faker->name);
                 $book->setDescription($faker->text);
