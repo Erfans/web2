@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BookStore index{% endblock %}
+
+{% block body %}
+    <h1 class="my-5">Bookstores</h1>
+
+    {% for book_store in book_stores %}
+        <div class="card m-3 d-inline-block" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ book_store.name }}</h5>
+                <h5 class="card-title">{{ book_store.owner.username }}</h5>
+                <p class="card-text">
+                <p>
+                    <span>Tel: </span>
+                    <span>{{ book_store.phone }}</span>
+                </p>
+                <p>
+                    <span>E-mail: </span>
+                    <span>{{ book_store.email }}</span>
+                </p>
+                </p>
+                <a href="{{ path('book_store_show', {id: book_store.id}) }}" class="btn btn-primary">Go to Bookstore</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

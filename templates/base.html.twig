@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+
+<header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <a href="{{ path('home') }}">
+                    <img src="{{ asset("build/images/logo.jpg") }}">
+                </a>
+                <h1 class="h1 d-inline-block">
+                    {{ 'app.title'|trans({}, 'messages') }}
+                </h1>
+                <h4>
+                    {{ 'app.now_is {now}'|trans({now: '14.Jul'})  }}
+                </h4>
+                <h4>
+                    {{ 'app.hello {username}'|trans({username: 'Erfan'})  }}
+                </h4>
+                <h4>
+                    {{ 'app.moto_{gender}_{name}'|trans({gender: 'female', name: 'Einstein'}) }}
+                </h4>
+                <h4>
+                    {{ 'app.num_of_books'|trans({books: 4}) }}
+                </h4>
+            </div>
+            <div class="col-6">
+                <form method="get" action="{{ path("search") }}" class="m-5">
+                    <div class="form-group d-flex">
+                        <input class="form-control" type="text" name="query" placeholder="Search..."/>
+                        <input class="btn-primary btn" type="submit" value="GO!"/>
+                    </div>
+                </form>
+                <div>
+                    <a href="{{ path('home', {'_locale': 'en'}) }}" >en</a>
+                    <a href="{{ path('home', {'_locale': 'fa'}) }}" >fa</a>
+                    <a href="{{ path('home', {'_locale': 'de'}) }}" >de</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar  navbar-expand-lg navbar-light  bg-light">
+        {{ knp_menu_render('main') }}
+    </nav>
+</header>
+
+<div class="container">
+
+    {# read and display all flash messages #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} flash-{{ label }} my-2">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-12">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+</body>
+</html>

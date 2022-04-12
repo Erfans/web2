@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Book index{% endblock %}
+
+{% block body %}
+    <h1>Book index</h1>
+
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Price with tax</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.description }}</td>
+                <td>{{ book.price|format_currency('IRR') }}</td>
+                <td>{{ book.priceWithTax|format_currency('IRR') }}</td>
+                <td>
+                    <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
+                    {% if is_granted("ROLE_USER") %}
+                        <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted("ROLE_USER") %}
+        <a class="btn btn-primary btn-create-book" href="{{ path('book_new') }}">Create new</a>
+    {% endif %}
+{% endblock %}

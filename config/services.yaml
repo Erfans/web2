@@ -25,3 +25,31 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    app.menu_builder:
+        class: App\Menu\Builder
+        arguments: [ "@knp_menu.factory"]
+        tags:
+            - { name: knp_menu.menu_builder, method: mainMenu, alias: main }
+
+
+    App\Listener\CreditListener:
+        tags:
+            - name: 'doctrine.event_listener'
+                # this is the only required option for the lifecycle listener tag
+              event: 'postPersist'
+
+
+
+    App\Listener\KernelListener:
+        tags:
+            - name: 'kernel.event_listener'
+              event: 'kernel.request'
+
+    Gedmo\Translatable\TranslatableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            - [ setDefaultLocale, [ 'en' ] ]
+            - [ setTranslationFallback, [ false ] ]

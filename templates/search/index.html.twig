@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search for {{ query }}{% endblock %}
+
+{% block body %}
+    {% for book in books %}
+        <div class="card m-3 d-inline-block" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ book.name }}</h5>
+                <p class="card-text">
+                    {{ book.description }}
+                </p>
+                <p class="card-text fw-bold">
+                    {{ book.price|format_currency('IRR') }}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

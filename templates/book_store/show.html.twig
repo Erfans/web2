@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BookStore{% endblock %}
+
+{% block body %}
+    <h1 class="mt-5">{{ book_store.name }}</h1>
+    <p class="h6">
+        {{ book_store.phone }}
+    </p>
+    <p class="h6 mb-5">
+        {{ book_store.email }}
+    </p>
+
+    <h1 class="mt-5">Our Books</h1>
+    {% for salable in book_store.books %}
+        <div class="card m-3 d-inline-block"
+             style="width: 18rem; {% if salable.isTypeOf('book') %}background-color: #888;{% endif %} ">
+            <div class="card-body">
+                <h5 class="card-title">{{ salable.name }}</h5>
+                <p class="card-text">
+                    {{ salable.description }}
+                </p>
+                <p class="card-text fw-bold">
+                    {{ salable.price|format_currency('IRR') }}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <h1 class="mt-5">Our Magazines</h1>
+    {% for salable in book_store.magazines %}
+        <div class="card m-3 d-inline-block"
+             style="width: 18rem; {% if salable.isTypeOf('book') %}background-color: #888;{% endif %} ">
+            <div class="card-body">
+                <h5 class="card-title">{{ salable.name }}</h5>
+                <p class="card-text">
+                    {{ salable.description }}
+                </p>
+                <p class="card-text fw-bold">
+                    {{ salable.price|format_currency('IRR') }}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
