@@ -62,12 +62,16 @@ class BookStoreController extends AbstractController
     /**
      * @Route("/{id}/edit", name="book_store_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, BookStore $bookStore): Response
+    public function edit(Request $request, BookStore $bookStore, $_locale): Response
     {
+        $this->denyAccessUnlessGranted('edit', $bookStore);
+
         $form = $this->createForm(BookStoreType::class, $bookStore);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $bookStore->setTranslatableLocale($_locale);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('book_store_index');
@@ -84,7 +88,7 @@ class BookStoreController extends AbstractController
      */
     public function delete(Request $request, BookStore $bookStore): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$bookStore->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $bookStore->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($bookStore);
             $entityManager->flush();

@@ -46,12 +46,12 @@ class Builder
         /** @var BookStore[] $bookStores */
         $bookStores = $this->entityManager->getRepository(BookStore::class)->findAll();
 
-        foreach ($bookStores as $bookStore) {
-            $bookStoreMenu->addChild($bookStore->getName(), [
-                'route' => 'book_store_show',
-                'routeParameters' => ['id' => $bookStore->getId()]
-            ]);
-        }
+//        foreach ($bookStores as $bookStore) {
+//            $bookStoreMenu->addChild($bookStore->getName(), [
+//                'route' => 'book_store_show',
+//                'routeParameters' => ['id' => $bookStore->getId()]
+//            ]);
+//        }
 
         if (!$this->security->isGranted("IS_AUTHENTICATED_FULLY")) {
             $menu->addChild('Login', ['route' => 'app_login']);

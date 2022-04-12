@@ -58,9 +58,15 @@ class User implements UserInterface
      */
     private $orders;
 
+    /**
+     * @ORM\OneToMany(targetEntity=BookStore::class, mappedBy="owner", orphanRemoval=true)
+     */
+    private $bookStores;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->bookStores = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -204,6 +210,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BookStore[]
+     */
+    public function getBookStores(): Collection
+    {
+        return $this->bookStores;
+    }
+
+    public function addBookStore(BookStore $bookStore): self
+    {
+        if (!$this->bookStores->contains($bookStore)) {
+            $this->bookStores[] = $bookStore;
+            $bookStore->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookStore(BookStore $bookStore): self
+    {
+        if ($this->bookStores->removeElement($bookStore)) {
+            // set the owning side to null (unless already changed)
+            if ($bookStore->getOwner() === $this) {
+                $bookStore->setOwner(null);
             }
         }
 

@@ -1,0 +1,17 @@
+app:
+  title: Book & bookstore
+  now_is {now}: Today is {now}
+  hello {username}: Hello mate {username}
+  moto_{gender}_{name}: >-
+    {gender, select,
+      female {{name} was a great person. She said:}
+      male   {{name} was a great person. He said:}
+      other  {{name} was a great person and said:}
+    }
+
+  num_of_books: >-
+    {books, plural,
+        =0    {There are no books}
+        one   {There is one book}
+        other {There are # books!}
+    }

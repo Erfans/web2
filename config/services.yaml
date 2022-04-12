@@ -39,3 +39,17 @@ services:
                 # this is the only required option for the lifecycle listener tag
               event: 'postPersist'
 
+
+
+    App\Listener\KernelListener:
+        tags:
+            - name: 'kernel.event_listener'
+              event: 'kernel.request'
+
+    Gedmo\Translatable\TranslatableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+            - [ setDefaultLocale, [ 'en' ] ]
+            - [ setTranslationFallback, [ false ] ]

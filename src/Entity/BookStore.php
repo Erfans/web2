@@ -2,18 +2,20 @@
 
 namespace App\Entity;
 
-use App\Model\TimeTrait;
+use App\Model\OwnedInterface;
 use App\Repository\BookStoreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BookStoreRepository::class)
  */
-class BookStore
+class BookStore implements OwnedInterface
 {
 
     /**
@@ -25,8 +27,8 @@ class BookStore
 
     /**
      * @Assert\NotBlank
-     * @Assert\Regex(pattern="/^[a-zA-Z]+$/")
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Translatable
      */
     private $name;
 
@@ -48,6 +50,17 @@ class BookStore
      * @ORM\OneToMany(targetEntity=Salable::class, mappedBy="bookStore", orphanRemoval=true)
      */
     private $salables;
+
+    /**
+     * @Gedmo\Locale
+     */
+    private $locale;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookStores")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
 
     public function __construct()
     {
@@ -145,5 +158,22 @@ class BookStore
     public function __toString()
     {
         return $this->getName() . "[" . $this->getEmail() . "]";
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
     }
 }

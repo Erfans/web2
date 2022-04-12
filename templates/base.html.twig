@@ -18,7 +18,21 @@
                 <a href="{{ path('home') }}">
                     <img src="{{ asset("build/images/logo.jpg") }}">
                 </a>
-                <h1 class="h1 d-inline-block">Book & Bookstore</h1>
+                <h1 class="h1 d-inline-block">
+                    {{ 'app.title'|trans({}, 'messages') }}
+                </h1>
+                <h4>
+                    {{ 'app.now_is {now}'|trans({now: '14.Jul'})  }}
+                </h4>
+                <h4>
+                    {{ 'app.hello {username}'|trans({username: 'Erfan'})  }}
+                </h4>
+                <h4>
+                    {{ 'app.moto_{gender}_{name}'|trans({gender: 'female', name: 'Einstein'}) }}
+                </h4>
+                <h4>
+                    {{ 'app.num_of_books'|trans({books: 4}) }}
+                </h4>
             </div>
             <div class="col-6">
                 <form method="get" action="{{ path("search") }}" class="m-5">
@@ -27,6 +41,11 @@
                         <input class="btn-primary btn" type="submit" value="GO!"/>
                     </div>
                 </form>
+                <div>
+                    <a href="{{ path('home', {'_locale': 'en'}) }}" >en</a>
+                    <a href="{{ path('home', {'_locale': 'fa'}) }}" >fa</a>
+                    <a href="{{ path('home', {'_locale': 'de'}) }}" >de</a>
+                </div>
             </div>
         </div>
     </div>
